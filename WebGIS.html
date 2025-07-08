@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Quality WebGIS</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- OpenLayers CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css">
+  <style>
+    #map {
+      height: 75vh;
+      width: 100%;
+    }
+    .layer-controls {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .layer-group {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      padding: 12px;
+    }
+    .layer-group h4 {
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #374151;
+    }
+    .layer-item {
+      margin-bottom: 4px;
+      padding: 4px 0;
+    }
+    #layer-legend-container {
+      position: absolute;
+      top: 100px;
+      right: 20px;
+      max-width: 300px;
+      z-index: 1000;
+    }
+    
+  </style>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-blue-700 text-white px-6 py-4 shadow-md flex justify-between items-center">
+    <div class="text-2xl font-bold">Air Quality Mapping</div>
+    <div class="space-x-6 text-lg">
+      <a href="Homepage.html" class="hover:underline">Home</a>
+      <a href="Results.html" class="hover:underline">Results</a>
+      <a href="WebGIS.html" class="underline font-semibold">WebGIS</a>
+    </div>
+  </nav>
+
+  <!-- Controls -->
+  <div class="p-4 bg-gray-50 border-b">
+    <!-- Basemap Selection -->
+    <div class="flex items-center gap-4 mb-4">
+      <span class="text-lg font-medium">Basemap:</span>
+      <label class="inline-flex items-center">
+        <input type="radio" name="basemap" value="osm" id="osmRadio" class="mr-2" checked />
+        <span class="text-lg">OpenStreetMap</span>
+      </label>
+      <label class="inline-flex items-center">
+        <input type="radio" name="basemap" value="satellite" id="satelliteRadio" class="mr-2" />
+        <span class="text-lg">ESRI Satellite</span>
+      </label>
+    </div>
+
+<!-- Layer Controls -->
+<div class="layer-controls grid grid-cols-1 md:grid-cols-2 gap-4">
+  <!-- PM2.5 WMS Layers (now first column) -->
+  <div class="layer-group">
+    <h4>PM2.5 WMS Layers</h4>
+    <div id="pm25-wms-controls"></div>
+  </div>
+
+  <!-- PM10 WMS Layers (now second column) -->
+  <div class="layer-group">
+    <h4>PM10 WMS Layers</h4>
+    <div id="pm10-wms-controls"></div>
+  </div>
+</div>
+
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <!-- Dynamic Legend Container -->
+  <div id="layer-legend-container"></div>
+
+  <!-- OpenLayers JS -->
+  <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
+  <!-- Layer configurations -->
+  <script src="layers.js"></script>
+  <script>
+    // Global variables
+    let map;
+    let allLayers = {};
+
+    // Base OSM Layer
+    const osmLayer = new ol.layer.Tile({
+      source: new ol.source.OSM(),
+      visible: true,
+      title: 'OpenStreetMap'
+    });
+
+    // Satellite Layer
+    const satelliteLayer = new ol.layer.Tile({
+      source: new ol.source.XYZ({
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attributions: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+      }),
+      visible: false,
+      title: 'Satellite'
+    });
+
+    // Initialize all layers
+    function initializeLayers() {
+      // Create PM10 WMS layers
+      PM10_WMS_LAYERS.forEach(config => {
+        allLayers[config.id] = createWMSLayer(config);
+      });
+
+      // Create PM2.5 WMS layers
+      PM25_WMS_LAYERS.forEach(config => {
+        allLayers[config.id] = createWMSLayer(config);
+      });
+    }
+
+    // Create layer controls
+    function createLayerControls() {
+      // PM10 WMS controls
+      const pm10WmsContainer = document.getElementById('pm10-wms-controls');
+      PM10_WMS_LAYERS.forEach(config => {
+        const div = document.createElement('div');
+        div.className = 'layer-item';
+        div.innerHTML = `
+          <label class="inline-flex items-center text-sm">
+            <input type="checkbox" id="${config.id}" class="mr-2" ${config.visible ? 'checked' : ''} />
+            <span>${config.name}</span>
+          </label>
+          <button onclick="displayLayerLegend('${config.id}')" class="ml-2 text-xs text-blue-600 hover:underline">
+            Legend
+          </button>
+        `;
+        pm10WmsContainer.appendChild(div);
+      });
+
+      // PM2.5 WMS controls
+      const pm25WmsContainer = document.getElementById('pm25-wms-controls');
+      PM25_WMS_LAYERS.forEach(config => {
+        const div = document.createElement('div');
+        div.className = 'layer-item';
+        div.innerHTML = `
+          <label class="inline-flex items-center text-sm">
+            <input type="checkbox" id="${config.id}" class="mr-2" ${config.visible ? 'checked' : ''} />
+            <span>${config.name}</span>
+          </label>
+          <button onclick="displayLayerLegend('${config.id}')" class="ml-2 text-xs text-blue-600 hover:underline">
+            Legend
+          </button>
+        `;
+        pm25WmsContainer.appendChild(div);
+      });
+    }
+
+    // Initialize Map
+    function initializeMap() {
+      const layerArray = [osmLayer, satelliteLayer];
+      Object.values(allLayers).forEach(layer => {
+        layerArray.push(layer);
+      });
+
+      map = new ol.Map({
+        target: 'map',
+        layers: layerArray,
+        view: new ol.View({
+          center: ol.proj.fromLonLat([14.9955, 46.1512]), // Slovenia location
+          zoom: 8
+        }),
+        controls: ol.control.defaults.defaults().extend([
+          new ol.control.FullScreen(),
+          new ol.control.ScaleLine(),
+          new ol.control.MousePosition({
+            coordinateFormat: ol.coordinate.createStringXY(4),
+            projection: 'EPSG:4326'
+          })
+        ])
+      });
+    }
+
+    // Basemap switching functionality
+    function switchBasemap(selectedBasemap) {
+      if (selectedBasemap === 'osm') {
+        osmLayer.setVisible(true);
+        satelliteLayer.setVisible(false);
+      } else if (selectedBasemap === 'satellite') {
+        osmLayer.setVisible(false);
+        satelliteLayer.setVisible(true);
+      }
+    }
+
+    // Add event listeners
+    function addEventListeners() {
+      // Basemap radio buttons
+      document.getElementById('osmRadio').addEventListener('change', function() {
+        if (this.checked) {
+          switchBasemap('osm');
+        }
+      });
+
+      document.getElementById('satelliteRadio').addEventListener('change', function() {
+        if (this.checked) {
+          switchBasemap('satellite');
+        }
+      });
+
+      // Layer toggle checkboxes
+      Object.keys(allLayers).forEach(layerId => {
+        const checkbox = document.getElementById(layerId);
+        if (checkbox) {
+          checkbox.addEventListener('change', function() {
+            allLayers[layerId].setVisible(this.checked);
+          });
+        }
+      });
+    }
+
+    // Map click event for feature info
+    function addMapClickEvent() {
+      map.on('singleclick', function(evt) {
+        const visibleWmsLayers = Object.values(allLayers).filter(layer => 
+          layer.getVisible() && layer instanceof ol.layer.Tile
+        );
+
+        if (visibleWmsLayers.length > 0) {
+          const viewResolution = map.getView().getResolution();
+          
+          visibleWmsLayers.forEach(layer => {
+            const url = layer.getSource().getFeatureInfoUrl(
+              evt.coordinate,
+              viewResolution,
+              'EPSG:3857',
+              {
+                'INFO_FORMAT': 'text/html',
+                'FEATURE_COUNT': 1,
+                'username': GEOSERVER_CONFIG.USERNAME,
+                'password': GEOSERVER_CONFIG.PASSWORD
+              }
+            );
+            
+            if (url) {
+              fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                  if (html && html.trim() !== '') {
+                    const cleanText = html.replace(/<[^>]*>/g, '').trim();
+                    if (cleanText) {
+                      alert(`${layer.get('title')}: ${cleanText}`);
+                    }
+                  }
+                })
+                .catch(error => {
+                  console.log('Feature info not available for', layer.get('title'));
+                });
+            }
+          });
+        }
+      });
+    }
+
+    // Initialize everything when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeLayers();
+      createLayerControls();
+      initializeMap();
+      addEventListeners();
+      addMapClickEvent();
+
+      console.log('Air Quality WebGIS initialized with', Object.keys(allLayers).length, 'WMS layers');
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

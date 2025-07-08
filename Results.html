@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Quality Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-700 text-white px-6 py-4 shadow-md flex justify-between items-center">
+    <div class="text-2xl font-bold">Air Quality Mapping</div>
+    <div class="space-x-6 text-lg">
+      <a href="Homepage.html" class="hover:underline">Home</a>
+      <a href="Results.html" class="underline font-semibold">Results</a>
+      <a href="WebGIS.html" class="hover:underline">WebGIS</a>
+    </div>
+  </nav>
+
+  <!-- Results Title -->
+  <section class="py-10 px-8 bg-gray-50">
+    <div class="max-w-5xl mx-auto text-center">
+      <h1 class="text-4xl font-bold mb-2 text-blue-800">Results and Analysis</h1>
+      <p class="text-lg text-gray-700">
+        This section summarizes the outcomes of the air quality data processing, including PM2.5 and PM10 exposure analysis, population impact, and land use correlations.
+      </p>
+    </div>
+  </section>
+
+<!-- SET 1: ENHANCED RESULTS LAYOUT -->
+
+<!-- 1. Intro Card -->
+<section class="py-10 px-6 bg-gray-50">
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md transition hover:shadow-lg hover:scale-[1.01] duration-300">
+    <h2 class="text-2xl font-bold text-blue-700 mb-3">Air Pollution Analysis in Slovenia</h2>
+    <p class="text-gray-700 text-lg">
+      Our study offers an in-depth exploration of Slovenia’s PM2.5 and PM10 pollution trends by leveraging public datasets, 
+      GIS-based workflows, and interactive map products.<br>
+      Explore our key maps and visualizations below.
+    </p>
+  </div>
+</section>
+
+<!-- PM2.5 Spatial & Data Visualisation Title Card -->
+<section class="px-6 pt-10">
+  <div class="max-w-7xl mx-auto bg-blue-100 text-blue-900 text-center text-lg font-medium px-6 py-3 rounded shadow">
+    PM2.5 Spatial & Data Visualisation
+  </div>
+</section>
+
+<!-- 2. Mega Card with 6 Map Visualizations -->
+<section class="py-10 px-6">
+  <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition">
+    <h3 class="text-xl font-semibold text-blue-800 mb-4">Exploratory Maps</h3>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_cams_pm2p5_2022_12.png" alt="Map G" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">CAMS PM2.5 Map Dec 2022</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_average_pm2p5_2022.png" alt="Map H" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">Average PM2.5 Map 2022</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm2p5_concentration_map_2020.png" alt="Map I" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">PM2.5 Concentration Map 2020</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm2p5%20_2017-2021_AAD_map%20_2022.png" alt="Map J" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">5-Year Mean vs 2022 AAD</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_lc_reclassified_2022_pm2p5.png" alt="Map K" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">Land Cover Reclassified PM2.5</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm2p5_2020_bivariate.png" alt="Map L" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">PM2.5 Bivariate Analysis 2020</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Wide Hover Card -->
+<section class="py-10 px-6">
+  <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition grid md:grid-cols-2">
+    <!-- Left Hover Zones -->
+    <div class="flex flex-col justify-between p-6 bg-blue-50 hover:bg-blue-100 transition duration-300">
+      <div class="mb-4 hover:scale-105 transition duration-300 bg-white p-4 rounded shadow text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Bar_chart_mean_pm2p5.png" alt="Top Left" class="rounded mb-2 mx-auto">
+        <p class="text-sm text-gray-700">PM2.5 Mean Bar Chart</p>
+      </div>
+      <div class="hover:scale-105 transition duration-300 bg-white p-4 rounded shadow text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Bar_chart_max_pm2p5.png" alt="Bottom Left" class="rounded mb-2 mx-auto">
+        <p class="text-sm text-gray-700">PM2.5 Max Bar Chart</p>
+      </div>
+    </div>
+    <!-- Right Zone -->
+    <div class="p-6 bg-blue-100 hover:bg-blue-200 transition duration-300 flex items-center justify-center">
+      <div class="bg-white p-4 rounded shadow w-full text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm2p5_zonal_statistics_2013-2022.png" alt="Right Block" class="rounded mb-3 mx-auto">
+        <p class="text-sm text-gray-700">PM2.5 Zonal Stats (2013–2022)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Split Card -->
+<section class="py-10 px-6">
+  <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg grid md:grid-cols-2 gap-6 hover:shadow-2xl transition">
+    <div class="bg-blue-100 p-4 rounded shadow text-center hover:scale-105 transition">
+      <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Pie_chart_pm2p5.png" alt="Left Content" class="rounded mb-2 mx-auto">
+      <p class="text-sm text-gray-700">PM2.5 Pie Chart 2020</p>
+    </div>
+    <div class="bg-blue-100 p-4 rounded shadow text-center hover:scale-105 transition">
+      <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm2p5_2020_chart.png" alt="Right Content" class="rounded mb-2 mx-auto">
+      <p class="text-sm text-gray-700">PM2.5 Pop-Pol Class Map</p>
+    </div>
+  </div>
+</section>
+<!-- END SET 1 -->
+
+
+<!-- SET 2: VISUAL CARD SERIES -->
+
+<!-- PM10 Spatial & Data Visualisation Title Card -->
+<section class="px-6 pt-10">
+  <div class="max-w-7xl mx-auto bg-blue-100 text-blue-900 text-center text-lg font-medium px-6 py-3 rounded shadow">
+    PM10 Spatial & Data Visualisation
+  </div>
+</section>
+
+<!-- 2. Mega Card with 6 Map Visualizations -->
+<section class="py-10 px-6">
+  <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition">
+    <h3 class="text-xl font-semibold text-blue-800 mb-4">Exploratory Maps</h3>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_cams_pm10_2022_12.png" alt="PM10 Dec 2022" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">CAMS PM10 Map Dec 2022</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_average_pm10_2022.png" alt="PM10 Avg 2022" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">Average PM10 Map 2022</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm10_concentration_map_2020.png" alt="PM10 Conc 2020" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">PM10 Concentration Map 2020</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm10_2017-2021_AAD_map_2022.png" alt="PM10 Diff Map" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">5-Year Mean vs 2022 AAD</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_lc_reclassified_2022_pm10.png" alt="PM10 LC" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">Land Cover Reclassified PM10</p>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow hover:scale-105 transition text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm10_2020_bivariate.png" alt="PM10 Bivariate" class="rounded mb-3 w-full">
+        <p class="text-sm text-gray-700">PM10 Bivariate Analysis 2020</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Wide Hover Card -->
+<section class="py-10 px-6">
+  <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition grid md:grid-cols-2">
+    <!-- Left Hover Zones -->
+    <div class="flex flex-col justify-between p-6 bg-blue-50 hover:bg-blue-100 transition duration-300">
+      <div class="mb-4 hover:scale-105 transition duration-300 bg-white p-4 rounded shadow text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Bar_chart_mean_pm10.png" alt="Mean PM10" class="rounded mb-2 mx-auto">
+        <p class="text-sm text-gray-700">PM10 Mean Bar Chart</p>
+      </div>
+      <div class="hover:scale-105 transition duration-300 bg-white p-4 rounded shadow text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Bar_chart_max_pm10.png" alt="Max PM10" class="rounded mb-2 mx-auto">
+        <p class="text-sm text-gray-700">PM10 Max Bar Chart</p>
+      </div>
+    </div>
+    <!-- Right Zone -->
+    <div class="p-6 bg-blue-100 hover:bg-blue-200 transition duration-300 flex items-center justify-center">
+      <div class="bg-white p-4 rounded shadow w-full text-center">
+        <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm10_zonal_statistics_2013-2022.png" alt="Zonal Stats" class="rounded mb-3 mx-auto">
+        <p class="text-sm text-gray-700">PM10 Zonal Stats (2013–2022)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Split Card -->
+<section class="py-10 px-6">
+  <div class="max-w-7xl mx-auto bg-white p-6 rounded-xl shadow-lg grid md:grid-cols-2 gap-6 hover:shadow-2xl transition">
+    <div class="bg-blue-100 p-4 rounded shadow text-center hover:scale-105 transition">
+      <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Pie_chart_pm10.png" alt="Pie Chart PM10" class="rounded mb-2 mx-auto">
+      <p class="text-sm text-gray-700">PM10 Pie Chart 2020</p>
+    </div>
+    <div class="bg-blue-100 p-4 rounded shadow text-center hover:scale-105 transition">
+      <img src="https://raw.githubusercontent.com/vidyl911/GIS-Project-2025/main/Slovenia_pm10_2020_chart.png" alt="Pop-Pol Chart PM10" class="rounded mb-2 mx-auto">
+      <p class="text-sm text-gray-700">PM10 Pop-Pol Class Map</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
